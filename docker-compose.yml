@@ -2,12 +2,15 @@ version: '3'
 services:
   postgres:
     image: "postgres:latest"
+    hostname: postgres
     environment:
       - POSTGRES_PASSWORD=1234
   redis:
     image: "redis:latest"
+    hostname: redis
   api:
     image: lenesi/fibonaci-server
+    hostname: api
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -18,13 +21,16 @@ services:
       - PG_PORT=5432
   client:
     image: lenesi/fibonaci-client
+    hostname: client
   worker:
     image: lenesi/fibonaci-worker
+    hostname: worker
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
   web:
     restart: always
+    hostname: web
     image: lenesi/fibonaci-nginx
     ports:
       - '80:80'
