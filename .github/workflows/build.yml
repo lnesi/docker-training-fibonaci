@@ -16,11 +16,16 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: docker build -t lenesi/fibonaci-client-test -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true lenesi/fibonaci-client-test npm run test
-
+      # Cretae production containers images
       - run: docker build -t lenesi/fibonaci-client ./client
       - run: docker build -t lenesi/fibonaci-nginx ./nginx
       - run: docker build -t lenesi/fibonaci-server ./server
       - run: docker build -t lenesi/fibonaci-worker ./worker
+      # publish images to docker hub
+      - run: docker push lenesi/fibonaci-client
+      - run: docker push lenesi/fibonaci-nginx
+      - run: docker push lenesi/fibonaci-server
+      - run: docker push lenesi/fibonaci-worker
 
       # - name: Generate deployment package
       #   run: zip -r deploy.zip . -x '*.git*'
